@@ -13,9 +13,11 @@
 
 Pour que le projet fonctionne correctement, il faut que le projet frontend soit dans le même dossier que le projet backend. Voici la structure de dossier recommandée :
 
+```
 📂Votre dossier
  ┣ 📂Billed-app-FR-Back
  ┗ 📂Billed-app-FR-Front
+```
 
 ## Lancer le frontend en local
 ### Rendez-vous dans le même dossier que le projet backend
