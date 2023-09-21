@@ -13,37 +13,62 @@ export default class NewBill {
         this.fileUrl = null
         this.fileName = null
         this.billId = null
+        this.type = null
         new Logout({ document, localStorage, onNavigate })
     }
+
+    /**
+     * Handles the file change event and creates a new bill.
+     * 
+     * @param {Event} e - The event object.
+     */
     handleChangeFile = e => {
         e.preventDefault()
+
         const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
         const filePath = e.target.value.split(/\\/g)
         const fileName = filePath[filePath.length - 1]
         const formData = new FormData()
         const email = JSON.parse(localStorage.getItem("user")).email
-        formData.append('file', file)
-        formData.append('email', email)
+        this.type = file.type
 
-        this.store
-            .bills()
-            .create({
-                data: formData,
-                headers: {
-                    noContentType: true
-                }
-            })
-            .then(({ fileUrl, key }) => {
-                console.log(fileUrl)
-                this.billId = key
-                this.fileUrl = fileUrl
-                this.fileName = fileName
-            }).catch(error => console.error(error))
+        if (['image/png', 'image/jpeg', 'image/jpg'].includes(this.type)) {
+
+            this.document.querySelector(`input[data-testid="file"]`).classList.remove('is-invalid')
+
+            formData.append('file', file)
+            formData.append('email', email)
+
+            this.store
+                .bills()
+                .create({
+                    data: formData,
+                    headers: {
+                        noContentType: true
+                    }
+                })
+                .then(({ fileUrl, key }) => {
+                    console.log(fileUrl, key, "fileUrl, key")
+                    this.billId = key
+                    this.fileUrl = fileUrl
+                    this.fileName = fileName
+                }).catch(error => console.error(error))
+
+        } else {
+            this.document.querySelector(`input[data-testid="file"]`).classList.add('is-invalid')
+        }
     }
+
+    /**
+     * Handles the form submission for creating a new bill.
+     * 
+     * @param {Event} e - The form submission event.
+     */
     handleSubmit = e => {
         e.preventDefault()
-        console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
+
         const email = JSON.parse(localStorage.getItem("user")).email
+
         const bill = {
             email,
             type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
@@ -57,11 +82,21 @@ export default class NewBill {
             fileName: this.fileName,
             status: 'pending'
         }
-        this.updateBill(bill)
-        this.onNavigate(ROUTES_PATH['Bills'])
+
+        if (['image/png', 'image/jpeg', 'image/jpg'].includes(this.type)) {
+            this.updateBill(bill)
+            this.onNavigate(ROUTES_PATH['Bills'])
+        }
     }
 
-    // not need to cover this function by tests
+
+    /**
+     * INFORMATIONS: Not need to cover this function by tests
+     * 
+     * Updates the bill.
+     * 
+     * @param {Object} bill - The bill to update.
+     */
     updateBill = (bill) => {
         if (this.store) {
             this.store
