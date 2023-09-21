@@ -29,27 +29,25 @@ export const filteredBills = (data, status) => {
 
 export const card = (bill) => {
     const firstAndLastNames = bill.email.split('@')[0]
-    const firstName = firstAndLastNames.includes('.') ?
-        firstAndLastNames.split('.')[0] : ''
-    const lastName = firstAndLastNames.includes('.') ?
-        firstAndLastNames.split('.')[1] : firstAndLastNames
+    const firstName = firstAndLastNames.includes('.') ? firstAndLastNames.split('.')[0] : ''
+    const lastName = firstAndLastNames.includes('.') ? firstAndLastNames.split('.')[1] : firstAndLastNames
 
     return (`
     <div class='bill-card' id='open-bill${bill.id}' data-testid='open-bill${bill.id}'>
-      <div class='bill-card-name-container'>
-        <div class='bill-card-name'> ${firstName} ${lastName} </div>
-        <span class='bill-card-grey'> ... </span>
-      </div>
-      <div class='name-price-container'>
-        <span> ${bill.name} </span>
-        <span> ${bill.amount} € </span>
-      </div>
-      <div class='date-type-container'>
-        <span> ${formatDate(bill.date)} </span>
-        <span> ${bill.type} </span>
-      </div>
+        <div class='bill-card-name-container'>
+            <div class='bill-card-name'> ${firstName} ${lastName} </div>
+            <span class='bill-card-grey'> ... </span>
+        </div>
+        <div class='name-price-container'>
+            <span> ${bill.name} </span>
+            <span> ${bill.amount} € </span>
+        </div>
+        <div class='date-type-container'>
+            <span> ${formatDate(bill.date)} </span>
+            <span> ${bill.type} </span>
+        </div>
     </div>
-  `)
+    `)
 }
 
 export const cards = (bills) => {
@@ -72,9 +70,9 @@ export default class {
         this.document = document
         this.onNavigate = onNavigate
         this.store = store
-        $('#arrow-icon1').click((e) => this.handleShowTickets(e, bills, 1))
-        $('#arrow-icon2').click((e) => this.handleShowTickets(e, bills, 2))
-        $('#arrow-icon3').click((e) => this.handleShowTickets(e, bills, 3))
+        $('.status-bills-header').eq(0).click((e) => this.handleShowTickets(e, bills, 1))
+        $('.status-bills-header').eq(1).click((e) => this.handleShowTickets(e, bills, 2))
+        $('.status-bills-header').eq(2).click((e) => this.handleShowTickets(e, bills, 3))
         new Logout({ localStorage, onNavigate })
     }
 
@@ -100,11 +98,13 @@ export default class {
             $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' })
 
             $('.dashboard-right-container div').html(`
-        <div id="big-billed-icon" data-testid="big-billed-icon"> ${BigBilledIcon} </div>
-      `)
+            <div id="big-billed-icon" data-testid="big-billed-icon"> ${BigBilledIcon} </div>
+            `)
+
             $('.vertical-navbar').css({ height: '120vh' })
             this.counter++
         }
+
         $('#icon-eye-d').click(this.handleClickIconEye)
         $('#btn-accept-bill').click((e) => this.handleAcceptSubmit(e, bill))
         $('#btn-refuse-bill').click((e) => this.handleRefuseSubmit(e, bill))
@@ -146,6 +146,7 @@ export default class {
         }
 
         bills.forEach(bill => {
+            $(`#open-bill${bill.id}`).off('click')
             $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
         })
 

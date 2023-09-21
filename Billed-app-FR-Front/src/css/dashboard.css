@@ -31,13 +31,24 @@
 
 .status-bills-container {
   max-height: 70vh;
-  overflow-y: scroll;
 }
 
 .status-bills-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  padding: 1rem;
+  transition: background-color 0.1s ease;
+}
+
+.status-bills-header h3 {
+  margin-bottom: 0;
+}
+
+.status-bills-header:hover {
+  background-color: #F3F5FA;
+  border-radius: .5rem;
 }
 
 .status-bills-container h3 {
@@ -114,6 +125,5 @@
 
 .arrow-icon {
   transform: rotate(90deg);
-  cursor: pointer;
 }
 
