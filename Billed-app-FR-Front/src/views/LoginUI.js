@@ -22,10 +22,10 @@ export default () => {
                         <form class="form-signin" data-testid="form-employee">
                             <h2 class="h3 mb-3 font-weight-normal">Employé</h1>
                                 <label for="inputEmail">Votre email</label>
-                                <input type="email" data-testid="employee-email-input" class="form-control"
+                                <input value="employee@test.tld" type="email" data-testid="employee-email-input" class="form-control"
                                     placeholder="johndoe@email.com" required autofocus>
                                 <label for="inputPassword">Mot de passe</label>
-                                <input type="password" data-testid="employee-password-input" class="form-control"
+                                <input value="employee" type="password" data-testid="employee-password-input" class="form-control"
                                     placeholder="******" required>
                                 <button class="btn btn-lg btn-primary btn-block" data-testid="employee-login-button"
                                     style="background-color: #0E5AE5;" type="submit">
@@ -41,10 +41,10 @@ export default () => {
                         <form class="form-signin" data-testid="form-admin">
                             <h2 class="h3 mb-3 font-weight-normal">Administration</h1>
                                 <label for="inputEmail">Votre email</label>
-                                <input type="email" data-testid="admin-email-input" class="form-control"
+                                <input value="admin@test.tld" type="email" data-testid="admin-email-input" class="form-control"
                                     placeholder="johndoe@email.com" required autofocus>
                                 <label for="inputPassword">Mot de passe</label>
-                                <input type="password" data-testid="admin-password-input" class="form-control"
+                                <input value="admin" type="password" data-testid="admin-password-input" class="form-control"
                                     placeholder="******" required>
                                 <button type="submit" class="btn btn-lg btn-primary btn-block"
                                     data-testid="admin-login-button" style="background-color: #0E5AE5;">
