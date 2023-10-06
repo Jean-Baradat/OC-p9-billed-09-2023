@@ -24,18 +24,21 @@ $.fn.modal = jest.fn(function (option) {
 describe("Given I am connected as an employee", () => {
     describe("When I am on Bills Page", () => {
 
-        // Mock onNavigate function
-        const onNavigate = (pathname) => {
-            document.body.innerHTML = ROUTES({ pathname })
-        }
+        let onNavigate
+        beforeAll(async () => {
+            // Mock onNavigate function
+            onNavigate = (pathname) => {
+                document.body.innerHTML = ROUTES({ pathname })
+            }
 
-        // add localStorage to window
-        Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+            // add localStorage to window
+            Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
-        // set user to Employee
-        window.localStorage.setItem('user', JSON.stringify({
-            type: 'Employee'
-        }));
+            // set user to Employee
+            window.localStorage.setItem('user', JSON.stringify({
+                type: 'Employee'
+            }));
+        });
 
 
         test("Then bill icon in vertical layout should be highlighted", async () => {
