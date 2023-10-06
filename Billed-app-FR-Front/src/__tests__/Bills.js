@@ -24,13 +24,21 @@ $.fn.modal = jest.fn(function (option) {
 describe("Given I am connected as an employee", () => {
     describe("When I am on Bills Page", () => {
 
+        // Mock onNavigate function
+        const onNavigate = (pathname) => {
+            document.body.innerHTML = ROUTES({ pathname })
+        }
+
+        // add localStorage to window
+        Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
+        // set user to Employee
+        window.localStorage.setItem('user', JSON.stringify({
+            type: 'Employee'
+        }));
+
+
         test("Then bill icon in vertical layout should be highlighted", async () => {
-
-            Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-
-            window.localStorage.setItem('user', JSON.stringify({
-                type: 'Employee'
-            }))
 
             const root = document.createElement("div")
             root.setAttribute("id", "root")
@@ -51,6 +59,7 @@ describe("Given I am connected as an employee", () => {
             expect(dates).toEqual(datesSorted)
         })
 
+
         /**
          * This test verifies the expected operation of the handleClickNewBill function.
          * To do this he mock the handleClickNewBill function and add an event listener
@@ -61,19 +70,6 @@ describe("Given I am connected as an employee", () => {
          * 'Envoyer une note de frais'. This text is only present on the NewBill page.
          */
         it("There should be a function to access the NewBill page", async () => {
-
-            // Mock onNavigate function
-            const onNavigate = (pathname) => {
-                document.body.innerHTML = ROUTES({ pathname })
-            }
-
-            // add localStorage to window
-            Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-
-            // set user to Employee
-            window.localStorage.setItem('user', JSON.stringify({
-                type: 'Employee'
-            }))
 
             // Add BillsUI to document body
             document.body.innerHTML = BillsUI({ data: [] })
@@ -98,6 +94,7 @@ describe("Given I am connected as an employee", () => {
             expect(screen.queryByText('Envoyer une note de frais')).toBeTruthy()
         })
 
+
         /**
          * This test verifies there is a button to access the NewBill page.
          * To do this it adds BillsUI to document body and checks if the button exists.
@@ -112,6 +109,7 @@ describe("Given I am connected as an employee", () => {
             expect(newBillButton).toBeTruthy()
         })
 
+
         /**
          * This test verifies the expected operation of the handleClickIconEye function. 
          * To do this he mock the handleClickIconEye function and add an event listener 
@@ -123,16 +121,6 @@ describe("Given I am connected as an employee", () => {
          * displayed.
          */
         it("There should be a function to open modal with image", async () => {
-
-            const onNavigate = (pathname) => {
-                document.body.innerHTML = ROUTES({ pathname })
-            }
-
-            Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-
-            window.localStorage.setItem('user', JSON.stringify({
-                type: 'Employee'
-            }))
 
             // Add BillsUI with list of bills to document body
             document.body.innerHTML = BillsUI({ data: await store.bills().list() })
@@ -161,6 +149,7 @@ describe("Given I am connected as an employee", () => {
             expect(modal.classList.contains('show')).toBeTruthy()
         })
 
+
         /**
          * This test verifies there is a button to open modal of bill.
          * To do this it adds BillsUI to document body and checks if the button exists.
@@ -173,6 +162,26 @@ describe("Given I am connected as an employee", () => {
 
             // Expect iconEyes exists
             expect(iconEyes).toBeTruthy()
+        })
+
+
+        /**
+         * This test verifies the expected operation of getBills functions.
+         * To do this, it waits for the result of getBills using the store mock. 
+         * Then, for each element in this result, it tests whether the element 
+         * has a specific status (from a defined list) and whether the element's 
+         * date corresponds to a regex format for the date.
+         */
+        it("There should be a function to format status and date of each bill", async () => {
+
+            const bills = new Bills({ document, onNavigate, store, localStorage })
+
+            const result = await bills.getBills()
+
+            for (const i of result) {
+                expect(["En attente", "Accepté", "Refusé"]).toContain(i.status)
+                expect(i.date).toMatch(/^\d{1,2} [A-Za-zÀ-ÖØ-öø-ÿ]{3}\. \d{2}$/)
+            }
         })
     })
 })
