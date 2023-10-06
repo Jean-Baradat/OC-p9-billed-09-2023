@@ -186,5 +186,24 @@ describe("Given I am connected as an employee", () => {
                 expect(i.date).toMatch(/^\d{1,2} [A-Za-zÀ-ÖØ-öø-ÿ]{3}\. \d{2}$/)
             }
         })
+
+        /**
+         * Integration test
+         * 
+         * This test checks whether all bills are displayed in BillsUI.
+         * 
+         * To test this, check whether the eye icons are present in the 
+         * mocked page. As there are 4 bills in our mocked data, 
+         * there should be 4 eye icons.
+         */
+        it('fetches bills from mock API GET', async () => {
+
+            document.body.innerHTML = BillsUI({ data: await store.bills().list() })
+
+            const iconEyes = screen.getAllByTestId('icon-eye')
+
+            expect(iconEyes).toHaveLength(4)
+
+        })
     })
 })
