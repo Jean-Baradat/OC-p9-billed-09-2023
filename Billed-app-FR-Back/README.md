@@ -26,22 +26,12 @@ Voici quelques indications pour gérer les version de node sur votre ordinateur:
     - `nvm install 18.16.1`
     - `nvm use 18.16.1`
 
-### Rendez-vous dans le dossier où vous souhaitez cloner le projet
-```
-cd #/chemin/vers/le/dossier/où/je/veux/cloner/le/projet
-```
-
-### Cloner le projet
-```
-git clone #
-```
-
 ### Acceder au repertoire du projet
 ```
 cd Billed-app-FR-Back
 ```
 
-### Installer les dépendances du projet
+### Installer les packages npm (décrits dans `package.json`)
 ```
 npm i
 ```
@@ -82,16 +72,6 @@ Here are some guidelines for managing node versions on your computer:
 - change the node version to a compatible one (e.g. 18.16.1) follow the NVM instructions: 
     - `nvm install 18.16.1`
     - `nvm use 18.16.1`
-
-### Go to the folder where you want to clone the project
-```
-cd #/path/to/folder/where/I/want/to/clone/project
-```
-
-### Clone the projet
-```
-git clone #
-```
 
 ### Go to the project directory
 ```
