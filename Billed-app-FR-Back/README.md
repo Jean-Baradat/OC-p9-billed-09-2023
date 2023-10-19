@@ -45,6 +45,29 @@ npm run run:dev
 
 L'api est accessible sur le port `5678` en local, c'est à dire **[http://localhost:5678](http://localhost:5678)**
 
+## Commandes utiles sqLite3
+
+Commencer par accéder à la base de données :
+```
+sqLite3 database_dev.sqlite
+```
+De là, vous pouvez :
+- Supprimer une facture avec son ID
+```SQL
+DELETE FROM Bills WHERE id = 0;
+```
+- Supprimer plusieurs notes de frais 
+```SQL
+DELETE FROM Bills WHERE id BETWEEN 0 AND 10;
+```
+- Quitter sqLite3
+```SQL
+.exit
+```
+
+Pour connaitre l'ID des notes de frais, je vous recommende :
+https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer
+
 ---
 
 ## - *EN* -
@@ -93,3 +116,26 @@ npm run run:dev
 ### Access to the PAI
 
 The API is locally available on port `5678`, go to **[http://localhost:5678](http://localhost:5678)**
+
+## Helpful sqLite3 commands
+
+Start by accessing the database:
+```
+sqLite3 database_dev.sqlite
+```
+From here you can:
+- Delete a bill with its ID
+```SQL
+DELETE FROM Bills WHERE id = 0;
+```
+- Delete multiple bills
+```SQL
+DELETE FROM Bills WHERE id BETWEEN 0 AND 10;
+```
+- Quit sqLite3
+```SQL
+.exit
+```
+
+To find out the ID of your bills, I recommend:
+https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer
