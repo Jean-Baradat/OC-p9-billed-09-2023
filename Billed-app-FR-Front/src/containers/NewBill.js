@@ -90,7 +90,6 @@ export default class NewBill {
                     }
 
                     this.updateBill(bill)
-                    this.onNavigate(ROUTES_PATH['Bills'])
                 })
                 .catch(error => console.error(error))
         }
